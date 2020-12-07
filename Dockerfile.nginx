@@ -9,7 +9,7 @@ WORKDIR /web-blog
 
 RUN npm install
 RUN npm install hexo-abbrlink --save
-RUN npm install -g hexo-cli
+RUN npm install -g hexo-cli@3.1.0
 RUN npm install hexo-generator-searchdb
 RUN hexo clean && hexo g
 
