@@ -33,5 +33,6 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.DEPLOY_KEY }}
           script: |
+            cd /root/runtangr/hexo/
             docker-compose -f docker-compose-nginx.yaml build
             docker-compose -f docker-compose-nginx.yaml up -d
