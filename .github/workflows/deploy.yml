@@ -1,0 +1,36 @@
+name: Deploy site
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - README.md
+      - LICENSE
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Deploy to Server
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          ARGS: -avz --delete --exclude='*.pyc'
+          SERVER_PORT: "49994"
+          FOLDER: ./
+          SERVER_IP: ${{ secrets.SSH_HOST }}
+          USERNAME: ${{ secrets.SSH_USERNAME }}
+          SERVER_DESTINATION: /root/runtangr/hexo/
+      - name: Restart server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.DEPLOY_KEY }}
+          script: |
+            docker-compose -f docker-compose-nginx.yaml build
+            docker-compose -f docker-compose-nginx.yaml up -d
