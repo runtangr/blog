@@ -3,7 +3,9 @@ title: git rebase 工作流
 tags:
   - git
 categories: 技术
-abbrlink: b31a5b3q
+abbrlink: 
+    alg: crc32
+    rep: hex
 date: 2020-12-07 00:00:00
 ---
 
