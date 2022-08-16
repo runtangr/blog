@@ -83,5 +83,8 @@ theme: jekyll-theme-cayman
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: 'git'
+  repo: 
+    github: https://github.com/runtangr/runtangr.github.io.git
+  branch: master
 
