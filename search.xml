@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>django外键之指定字段</title>
+    <url>/blog/post/b31a5b38.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>数据库表已经定义，有关联关系字段</li>
+<li>django程序model指定关联关系字段  </li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><h3 id="通用外键-1"><a href="#通用外键-1" class="headerlink" title="通用外键"></a>通用外键</h3><ul>
+<li>数据库表的创建使用django通用的 %s_id 作为外键 如：group_id</li>
+<li>未创建数据库，使用django统一创建</li>
+</ul>
+<h3 id="指定外键"><a href="#指定外键" class="headerlink" title="指定外键"></a>指定外键</h3><ul>
+<li>数据库表的创建使用非django 通用的字段作为外键 如：group_num</li>
+<li>已创建数据库，指定关联字段</li>
+</ul>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><ul>
+<li><p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" target="_blank" rel="noopener">官方文档</a>   </p>
+</li>
+<li><p><a href="https://github.com/django/django/blob/master/django/db/models/fields/related.py" target="_blank" rel="noopener">django源码</a>  </p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git rebase 工作流</title>
     <url>/blog/post/27141bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
@@ -54,74 +85,26 @@
       </tags>
   </entry>
   <entry>
-    <title>使用k8s</title>
-    <url>/blog/post/27141bca.html</url>
-    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
-<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
-<p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
-<h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
-<p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
-<p>type:外部访问方式 <a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0" target="_blank" rel="noopener">原文链接</a> <a href="http://dockone.io/article/4884" target="_blank" rel="noopener">译文链接</a><br>kubectl create -f redis-test-svc.yaml  </p>
-<p>自此，整个简单的开发到部署k8s流程已经简要介绍。后续还有许多将深入学习。  </p>
-<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://dockone.io/article/4884" target="_blank" rel="noopener">http://dockone.io/article/4884</a><br><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" rel="noopener">https://kubernetes.io/docs/tutorials/kubernetes-basics</a></p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>方法论思考</title>
-    <url>/blog/post/27131bww.html</url>
-    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。</p>
-<h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
-<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
-<li>在思考问题的时候，尽量去发现问题的本质，不要过多的纠结细节，找到本质，找到方法论，这样就会事半功倍，比自己想到什么说什么好。</li>
-<li>著名的5why分析法也是这个原理。</li>
+    <title>学习</title>
+    <url>/blog/post/27131qqw.html</url>
+    <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
+<li>在学习过程中，最大程度的理解知识。</li>
+</ul>
+<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
+<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。</li>
+</ul>
+<h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
+<li>将知识一次又一次的教授他人，温故而知新。</li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://en.wikipedia.org/wiki/Five_whys" target="_blank" rel="noopener">5why</a> </li>
-<li><a href="https://zhuanlan.zhihu.com/p/28573268" target="_blank" rel="noopener">自我方法论</a></li>
+<li><a href="https://baike.baidu.com/item/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/50895393" target="_blank" rel="noopener">费曼学习法</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>方法论</category>
+        <category>学习</category>
       </categories>
       <tags>
         <tag>思考</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>django外键之指定字段</title>
-    <url>/blog/post/b31a5b38.html</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>数据库表已经定义，有关联关系字段</li>
-<li>django程序model指定关联关系字段  </li>
-</ul>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
-<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><h3 id="通用外键-1"><a href="#通用外键-1" class="headerlink" title="通用外键"></a>通用外键</h3><ul>
-<li>数据库表的创建使用django通用的 %s_id 作为外键 如：group_id</li>
-<li>未创建数据库，使用django统一创建</li>
-</ul>
-<h3 id="指定外键"><a href="#指定外键" class="headerlink" title="指定外键"></a>指定外键</h3><ul>
-<li>数据库表的创建使用非django 通用的字段作为外键 如：group_num</li>
-<li>已创建数据库，指定关联字段</li>
-</ul>
-<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><ul>
-<li><p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" target="_blank" rel="noopener">官方文档</a>   </p>
-</li>
-<li><p><a href="https://github.com/django/django/blob/master/django/db/models/fields/related.py" target="_blank" rel="noopener">django源码</a>  </p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>django</tag>
       </tags>
   </entry>
   <entry>
@@ -147,6 +130,25 @@
       <tags>
         <tag>celery</tag>
         <tag>flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用k8s</title>
+    <url>/blog/post/27141bca.html</url>
+    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
+<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
+<p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
+<h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>type:外部访问方式 <a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0" target="_blank" rel="noopener">原文链接</a> <a href="http://dockone.io/article/4884" target="_blank" rel="noopener">译文链接</a><br>kubectl create -f redis-test-svc.yaml  </p>
+<p>自此，整个简单的开发到部署k8s流程已经简要介绍。后续还有许多将深入学习。  </p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://dockone.io/article/4884" target="_blank" rel="noopener">http://dockone.io/article/4884</a><br><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" rel="noopener">https://kubernetes.io/docs/tutorials/kubernetes-basics</a></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -197,23 +199,21 @@
       </tags>
   </entry>
   <entry>
-    <title>学习</title>
-    <url>/blog/post/27131qqw.html</url>
-    <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
-<li>在学习过程中，最大程度的理解知识。</li>
-</ul>
-<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
-<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。</li>
-</ul>
-<h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
-<li>将知识一次又一次的教授他人，温故而知新。</li>
+    <title>方法论思考</title>
+    <url>/blog/post/27131bww.html</url>
+    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。</p>
+<h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
+<li>在思考问题的时候，尽量去发现问题的本质，不要过多的纠结细节，找到本质，找到方法论，这样就会事半功倍，比自己想到什么说什么好。</li>
+<li>著名的5why分析法也是这个原理。</li>
 </ul>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://baike.baidu.com/item/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/50895393" target="_blank" rel="noopener">费曼学习法</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Five_whys" target="_blank" rel="noopener">5why</a> </li>
+<li><a href="https://zhuanlan.zhihu.com/p/28573268" target="_blank" rel="noopener">自我方法论</a></li>
 </ul>
 ]]></content>
       <categories>
-        <category>学习</category>
+        <category>方法论</category>
       </categories>
       <tags>
         <tag>思考</tag>
