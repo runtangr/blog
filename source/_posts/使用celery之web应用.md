@@ -12,7 +12,7 @@ date: 2018-10-26 00:00:00
  * 现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。
 
 ## 处理流程
-![](/images/celery_web/celery_web_1.jpg)
+![](/blog/images/celery_web/celery_web_1.jpg)
 
 ## demo
 local.py
