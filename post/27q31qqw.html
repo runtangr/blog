@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。 数据用途以下都是采集用户数据、分析、反馈用户的例子：  许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送">
+  <meta name="description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。">
 <meta name="keywords" content="大数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大数据平台">
 <meta property="og:url" content="runtangr.github.io/blog/post/27q31qqw.html">
 <meta property="og:site_name" content="TangRui&#39;s Blog">
-<meta property="og:description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。 数据用途以下都是采集用户数据、分析、反馈用户的例子：  许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送">
+<meta property="og:description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="/blog/images/big_data/data_collect.png">
 <meta property="og:image" content="/blog/images/big_data/data_save.png">
 <meta property="og:image" content="/blog/images/big_data/data_analysis.png">
 <meta property="og:image" content="/blog/images/big_data/data_visualization_interface.png">
-<meta property="og:updated_time" content="2024-01-18T09:43:43.454Z">
+<meta property="og:updated_time" content="2024-01-22T07:05:56.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="大数据平台">
-<meta name="twitter:description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。 数据用途以下都是采集用户数据、分析、反馈用户的例子：  许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送">
+<meta name="twitter:description" content="起始由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。以下是我理解的大数据的一种可行性基础架构。">
 <meta name="twitter:image" content="/blog/images/big_data/data_collect.png">
 
 <link rel="canonical" href="runtangr.github.io/blog/post/27q31qqw.html">
@@ -178,10 +178,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2024-01-18 00:00:00 / 修改时间：17:43:43" itemprop="dateCreated datePublished" datetime="2024-01-18T00:00:00+08:00">2024-01-18</time>
+              <time title="创建时间：2024-01-18 00:00:00" itemprop="dateCreated datePublished" datetime="2024-01-18T00:00:00+08:00">2024-01-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-22 15:05:56" itemprop="dateModified" datetime="2024-01-22T15:05:56+08:00">2024-01-22</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -203,7 +209,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。</p>
+        <h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。<br><a id="more"></a></p>
 <h2 id="数据用途"><a href="#数据用途" class="headerlink" title="数据用途"></a>数据用途</h2><p>以下都是采集用户数据、分析、反馈用户的例子：</p>
 <ul>
 <li>许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送相应广告。</li>
@@ -451,7 +457,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">TangRui</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
         
@@ -472,7 +478,7 @@
   <script src="/blog/lib/velocity/velocity.min.js"></script>
   <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
 <script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/muse.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
 <script src="/blog/js/next-boot.js"></script>
 
 

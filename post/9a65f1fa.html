@@ -17,21 +17,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session 用户每次访问判断当前用户session和redis中是否一致，实现同一个账号">
+  <meta name="description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session">
 <meta name="keywords" content="flask,flask_login">
 <meta property="og:type" content="article">
 <meta property="og:title" content="管理系统之用户登录">
 <meta property="og:url" content="runtangr.github.io/blog/post/9a65f1fa.html">
 <meta property="og:site_name" content="TangRui&#39;s Blog">
-<meta property="og:description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session 用户每次访问判断当前用户session和redis中是否一致，实现同一个账号">
+<meta property="og:description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2024-01-18T08:34:10.079Z">
+<meta property="og:updated_time" content="2024-01-22T07:06:10.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="管理系统之用户登录">
-<meta name="twitter:description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session 用户每次访问判断当前用户session和redis中是否一致，实现同一个账号">
+<meta name="twitter:description" content="需求 同一个账号只能一处登录  解决方法 修改flask session（保存在内存中）存储到redis 参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session） 在用户登录的接口中，清除当前用户存储在redis中的其他session">
 
 <link rel="canonical" href="runtangr.github.io/blog/post/9a65f1fa.html">
 
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-18 16:34:10" itemprop="dateModified" datetime="2024-01-18T16:34:10+08:00">2024-01-18</time>
+                <time title="修改时间：2024-01-22 15:06:10" itemprop="dateModified" datetime="2024-01-22T15:06:10+08:00">2024-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -210,7 +210,7 @@
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
 <li>修改flask session（保存在内存中）存储到redis</li>
 <li>参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session）</li>
-<li>在用户登录的接口中，清除当前用户存储在redis中的其他session</li>
+<li>在用户登录的接口中，清除当前用户存储在redis中的其他session<a id="more"></a></li>
 <li>用户每次访问判断当前用户session和redis中是否一致，实现同一个账号只能一处登录</li>
 </ul>
 <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><ul>
@@ -381,7 +381,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">TangRui</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
         
@@ -402,7 +402,7 @@
   <script src="/blog/lib/velocity/velocity.min.js"></script>
   <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
 <script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/muse.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
 <script src="/blog/js/next-boot.js"></script>
 
 

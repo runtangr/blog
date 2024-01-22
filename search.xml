@@ -5,7 +5,8 @@
     <url>/blog/post/b31a5b38.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
 <li>数据库表已经定义，有关联关系字段</li>
-<li>django程序model指定关联关系字段  </li>
+<li>django程序model指定关联关系字段  <a id="more"></a>
+</li>
 </ul>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
 <p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
@@ -35,7 +36,8 @@
     <title>git rebase 工作流</title>
     <url>/blog/post/27141bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
-<li>在工作中，使用git rebase工作流，对git的使用有一些理解，在此记录下。</li>
+<li>在工作中，使用git rebase工作流，对git的使用有一些理解，在此记录下。<a id="more"></a>
+</li>
 </ul>
 <h2 id="git-rebase-工作流"><a href="#git-rebase-工作流" class="headerlink" title="git rebase 工作流"></a>git rebase 工作流</h2><ul>
 <li>git clone 远程代码</li>
@@ -89,7 +91,8 @@
     <url>/blog/post/4bd0c7ac.html</url>
     <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><ul>
 <li>web 应用采用同步方式，响应时间过长。</li>
-<li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。</li>
+<li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。<a id="more"></a>
+</li>
 </ul>
 <h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/blog/images/celery_web/celery_web_1.jpg" alt=""></p>
 <h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>local.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> make_celery</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(config[<span class="string">'local'</span>])</span><br><span class="line">config[<span class="string">'local'</span>].init_app(app)</span><br><span class="line">app.config.update(RESTFUL_JSON=dict(ensure_ascii=<span class="keyword">False</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> celery_task <span class="keyword">import</span> celery_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化celery</span></span><br><span class="line">celery = make_celery(app)</span><br><span class="line">manager = Manager(app=app)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    test = request.args.get(<span class="string">'test'</span>,<span class="string">''</span>)</span><br><span class="line">    msg = &#123;<span class="string">'test'</span>: test&#125;</span><br><span class="line">    result = celery_test.delay(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">','</span>.join([<span class="string">'status:&#123;&#125;'</span>.format(result.status),</span><br><span class="line">                     <span class="string">'task_id:&#123;&#125;'</span>.format(result.task_id)</span><br><span class="line">                     ])</span><br><span class="line">             </span><br><span class="line">                     </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure></p>
@@ -113,7 +116,7 @@
     <title>使用k8s</title>
     <url>/blog/post/27141bca.html</url>
     <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
-<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
+<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
 <p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
 <h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
 <p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
@@ -135,7 +138,8 @@
 <li>在学习过程中，最大程度的理解知识。</li>
 </ul>
 <h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
-<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。</li>
+<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。<a id="more"></a>
+</li>
 </ul>
 <h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
 <li>将知识一次又一次的教授他人，温故而知新。</li>
@@ -154,7 +158,7 @@
   <entry>
     <title>大数据平台</title>
     <url>/blog/post/27q31qqw.html</url>
-    <content><![CDATA[<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。</p>
+    <content><![CDATA[<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在NAVER music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。<br><a id="more"></a></p>
 <h2 id="数据用途"><a href="#数据用途" class="headerlink" title="数据用途"></a>数据用途</h2><p>以下都是采集用户数据、分析、反馈用户的例子：</p>
 <ul>
 <li>许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送相应广告。</li>
@@ -275,7 +279,7 @@
   <entry>
     <title>方法论思考</title>
     <url>/blog/post/27131bww.html</url>
-    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。</p>
+    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。<br><a id="more"></a></p>
 <h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
 <li>在思考问题的时候，尽量去发现问题的本质，不要过多的纠结细节，找到本质，找到方法论，这样就会事半功倍，比自己想到什么说什么好。</li>
@@ -301,7 +305,7 @@
 </ul>
 <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
 <li>问题1: 有一个数组，数组中存储的是 Cat 对象，每个 Cat 对象有多个成员变量，其中一个代表颜色 color，有两个值白色和黑色，要求编写一个函数将数组中所有的白猫都放到黑猫前面</li>
-<li>问题2: 如果猫的颜色有三种，白色、黑色、灰色，编写一个函数将数组中白猫放到最前面，灰猫放到中间，黑猫放到最后面，比如：原来数组为 黑白灰白白黑灰灰，经过排序之后白白白灰灰黑黑</li>
+<li>问题2: 如果猫的颜色有三种，白色、黑色、灰色，编写一个函数将数组中白猫放到最前面，灰猫放到中间，黑猫放到最后面，比如：原来数组为 黑白灰白白黑灰灰，经过排序之后白白白灰灰黑黑<a id="more"></a></li>
 <li>问题3: 不仅白灰黑之间按顺序排列，而且白猫，灰猫，黑猫各自内部原来的先后顺序也不能变</li>
 </ul>
 <h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
@@ -346,7 +350,7 @@
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
 <li>修改flask session（保存在内存中）存储到redis</li>
 <li>参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session）</li>
-<li>在用户登录的接口中，清除当前用户存储在redis中的其他session</li>
+<li>在用户登录的接口中，清除当前用户存储在redis中的其他session<a id="more"></a></li>
 <li>用户每次访问判断当前用户session和redis中是否一致，实现同一个账号只能一处登录</li>
 </ul>
 <h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><ul>

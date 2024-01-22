@@ -17,21 +17,21 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。 自我方法论的产生从上面可以看出自我方法">
+  <meta name="description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。">
 <meta name="keywords" content="思考">
 <meta property="og:type" content="article">
 <meta property="og:title" content="方法论思考">
 <meta property="og:url" content="runtangr.github.io/blog/post/27131bww.html">
 <meta property="og:site_name" content="TangRui&#39;s Blog">
-<meta property="og:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。 自我方法论的产生从上面可以看出自我方法">
+<meta property="og:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2024-01-18T08:34:10.078Z">
+<meta property="og:updated_time" content="2024-01-22T07:06:01.398Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="方法论思考">
-<meta name="twitter:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。 自我方法论的产生从上面可以看出自我方法">
+<meta name="twitter:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。">
 
 <link rel="canonical" href="runtangr.github.io/blog/post/27131bww.html">
 
@@ -181,7 +181,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-01-18 16:34:10" itemprop="dateModified" datetime="2024-01-18T16:34:10+08:00">2024-01-18</time>
+                <time title="修改时间：2024-01-22 15:06:01" itemprop="dateModified" datetime="2024-01-22T15:06:01+08:00">2024-01-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。</p>
+        <h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。<br><a id="more"></a></p>
 <h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
 <li>在思考问题的时候，尽量去发现问题的本质，不要过多的纠结细节，找到本质，找到方法论，这样就会事半功倍，比自己想到什么说什么好。</li>
@@ -355,7 +355,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">TangRui</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
   </div>
 
         
@@ -376,7 +376,7 @@
   <script src="/blog/lib/velocity/velocity.min.js"></script>
   <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
 <script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/muse.js"></script>
+<script src="/blog/js/schemes/pisces.js"></script>
 <script src="/blog/js/next-boot.js"></script>
 
 
