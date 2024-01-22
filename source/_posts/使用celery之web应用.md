@@ -10,6 +10,7 @@ date: 2018-10-26 00:00:00
 ## 起源
  * web 应用采用同步方式，响应时间过长。
  * 现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。
+<!-- more -->
 
 ## 处理流程
 ![](/blog/images/celery_web/celery_web_1.jpg)
