@@ -13,27 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Deploy to Server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          ARGS: -avz --delete --exclude='*.pyc'
-          SERVER_PORT: ${{ secrets.SSH_PORT }}
-          FOLDER: ./
-          SERVER_IP: ${{ secrets.SSH_HOST }}
-          USERNAME: ${{ secrets.SSH_USERNAME }}
-          SERVER_DESTINATION: /root/runtangr/hexo/
-      - name: Restart server
-        uses: appleboy/ssh-action@master
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          host: ${{ secrets.SSH_HOST }}
-          port: ${{ secrets.SSH_PORT }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          script: |
-            cd /root/runtangr/hexo/
-            docker-compose -f docker-compose-nginx.yaml down
-            docker-compose -f docker-compose-nginx.yaml build
-            docker-compose -f docker-compose-nginx.yaml up -d
+          node-version: '14'
+          
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Generate static files
+        run: npx hexo generate
+
+      - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx hexo deploy
