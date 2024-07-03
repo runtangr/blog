@@ -28,11 +28,12 @@ jobs:
         run: npm install
           
       - name: Build
-        run: hexo generate
+        run: hexo clean && hexo generate
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           token: ${{ secrets.GITHUB_TOKEN }}
-          folder: public
+          folder: public/
+          clean: true
