@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>专注</title>
+    <url>/blog/post/272331qqw.html</url>
+    <content><![CDATA[<h2 id="如何保持专注"><a href="#如何保持专注" class="headerlink" title="如何保持专注"></a>如何保持专注</h2><h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><ul>
+<li>今天来公司上班，想到今天的任务安排。几点到几点该干什么，然后几点到几点又该干什么。想到自己的人生目标有许多，额，也没有几个 4，5个。</li>
+<li>什么时间段该干什么，总是感觉有做不完的事。思绪也会在不同事情的切换中被打断。到后面一天又过去了什么事也没做。</li>
+<li>这让我非常糟糕，同时也会想到自己的人生很长，以后会有很多时间去做。</li>
+<li>当我有这样的想法时，我突然感到恐惧。恐惧自己的人生事事都做，到头来却一事无成。</li>
+<li>我想到了去改变，思考能不能专心做一件事。但是我想到了我那4，5件事，在人生中必须去完成。</li>
+<li>在这种情况下，我又想到了一种解决方案。每天专注一件事，不用想其他任何事情。</li>
+</ul>
+<h3 id="终结"><a href="#终结" class="headerlink" title="终结"></a>终结</h3><ul>
+<li>可能我是个普通人，没有像其他大佬一样把每天的行程安排的满满当当，总有人来提醒什么时间点该干什么。</li>
+<li>每天专注一件事，不用想其他任何事情。仿佛放下了心灵的包袱，放心大胆的去做。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>专注</category>
+      </categories>
+      <tags>
+        <tag>思考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git rebase 工作流</title>
+    <url>/blog/post/27141bww.html</url>
+    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
+<li>在工作中，使用git rebase工作流，对git的使用有一些理解，在此记录下。<a id="more"></a>
+</li>
+</ul>
+<h2 id="git-rebase-工作流"><a href="#git-rebase-工作流" class="headerlink" title="git rebase 工作流"></a>git rebase 工作流</h2><ul>
+<li>git clone 远程代码</li>
+<li>git checkout -b feature/#1{issue id} <ul>
+<li>已是最新代码可直接checkout</li>
+<li>在开发新功能前需要创建issue，issue创建最好有一些模板</li>
+</ul>
+</li>
+<li>git add</li>
+<li>git commit -m “{message}”<ul>
+<li>message规则<ul>
+<li>Fix: 功能修复简短描述</li>
+<li>Feat: 新功能简短描述</li>
+<li>Style: 代码风格描述</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>git checkout develop</li>
+<li>git pull<ul>
+<li>更新开发分支</li>
+</ul>
+</li>
+<li>git checkout feature/#1</li>
+<li>git rebase develop<ul>
+<li>git rebase –continue 修复冲突</li>
+<li>git rebase –abort 中止rebase</li>
+</ul>
+</li>
+<li>git push origin feature/#1</li>
+<li>在git上提交pr<ul>
+<li>添加描述、指定issue</li>
+<li>指定reviewers</li>
+</ul>
+</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
+<li>当开发个人的项目可以随意的add、commit。但是随着项目开发人员的增多，必要的开发规范，是有必要的。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用celery之web应用</title>
+    <url>/blog/post/4bd0c7ac.html</url>
+    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><ul>
+<li>web 应用采用同步方式，响应时间过长。</li>
+<li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。<a id="more"></a>
+</li>
+</ul>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/blog/images/celery_web/celery_web_1.jpg" alt=""></p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>local.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> make_celery</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(config[<span class="string">'local'</span>])</span><br><span class="line">config[<span class="string">'local'</span>].init_app(app)</span><br><span class="line">app.config.update(RESTFUL_JSON=dict(ensure_ascii=<span class="keyword">False</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> celery_task <span class="keyword">import</span> celery_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化celery</span></span><br><span class="line">celery = make_celery(app)</span><br><span class="line">manager = Manager(app=app)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    test = request.args.get(<span class="string">'test'</span>,<span class="string">''</span>)</span><br><span class="line">    msg = &#123;<span class="string">'test'</span>: test&#125;</span><br><span class="line">    result = celery_test.delay(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">','</span>.join([<span class="string">'status:&#123;&#125;'</span>.format(result.status),</span><br><span class="line">                     <span class="string">'task_id:&#123;&#125;'</span>.format(result.task_id)</span><br><span class="line">                     ])</span><br><span class="line">             </span><br><span class="line">                     </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure></p>
+<p>config.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_app</span><span class="params">(app)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LocalConfig</span><span class="params">(Config)</span>:</span></span><br><span class="line">    CONFIG_NAME = <span class="string">'local'</span></span><br><span class="line">   </span><br><span class="line">    <span class="comment"># CELERY</span></span><br><span class="line">    CELERY_BROKER_URL = <span class="string">'redis://localhost:6379/1'</span></span><br><span class="line">    CELERY_RESULT_BACKEND = <span class="string">'redis://localhost:6379/2'</span></span><br><span class="line">    CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></span><br><span class="line">    CELERY_IMPORTS = (</span><br><span class="line">        <span class="string">"celery_task"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">config = &#123;</span><br><span class="line">    <span class="string">'local'</span>: LocalConfig,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>make_celery.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">celery = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_celery</span><span class="params">(app)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> celery</span><br><span class="line">    celery = Celery(app.import_name, backend=app.config[<span class="string">'CELERY_RESULT_BACKEND'</span>], broker=app.config[<span class="string">'CELERY_BROKER_URL'</span>])</span><br><span class="line">    celery.conf.update(app.config)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ContextTask</span><span class="params">(celery.Task)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">with</span> app.app_context():</span><br><span class="line">                <span class="keyword">return</span> self.run(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    celery.Task = ContextTask</span><br><span class="line">    <span class="keyword">return</span> celery</span><br></pre></td></tr></table></figure></p>
+<p>celery_task.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@celery.task()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">celery_test</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># deal msg</span></span><br><span class="line">    print(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'balabala'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>python local.py runserver<br>celery worker -A local.celery -l info<br>访问: <a href="http://127.0.0.1:5000/" target="_blank" rel="noopener">http://127.0.0.1:5000/</a></p>
+<h2 id="思考和深入"><a href="#思考和深入" class="headerlink" title="思考和深入"></a>思考和深入</h2><pre><code>* 学习基础用法.
+* 学习高级用法.
+* 学习相关依赖库.
+</code></pre>]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>celery</tag>
+        <tag>flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>django外键之指定字段</title>
+    <url>/blog/post/b31a5b38.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>数据库表已经定义，有关联关系字段</li>
+<li>django程序model指定关联关系字段  <a id="more"></a>
+</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><h3 id="通用外键-1"><a href="#通用外键-1" class="headerlink" title="通用外键"></a>通用外键</h3><ul>
+<li>数据库表的创建使用django通用的 %s_id 作为外键 如：group_id</li>
+<li>未创建数据库，使用django统一创建</li>
+</ul>
+<h3 id="指定外键"><a href="#指定外键" class="headerlink" title="指定外键"></a>指定外键</h3><ul>
+<li>数据库表的创建使用非django 通用的字段作为外键 如：group_num</li>
+<li>已创建数据库，指定关联字段</li>
+</ul>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><ul>
+<li><p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" target="_blank" rel="noopener">官方文档</a>   </p>
+</li>
+<li><p><a href="https://github.com/django/django/blob/master/django/db/models/fields/related.py" target="_blank" rel="noopener">django源码</a>  </p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用k8s</title>
+    <url>/blog/post/27141bca.html</url>
+    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
+<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
+<p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
+<h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>type:外部访问方式 <a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0" target="_blank" rel="noopener">原文链接</a> <a href="http://dockone.io/article/4884" target="_blank" rel="noopener">译文链接</a><br>kubectl create -f redis-test-svc.yaml  </p>
+<p>自此，整个简单的开发到部署k8s流程已经简要介绍。后续还有许多将深入学习。  </p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://dockone.io/article/4884" target="_blank" rel="noopener">http://dockone.io/article/4884</a><br><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" rel="noopener">https://kubernetes.io/docs/tutorials/kubernetes-basics</a></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>大数据平台</title>
+    <url>/blog/post/27q31qqw.html</url>
+    <content><![CDATA[<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。<br><a id="more"></a></p>
+<h2 id="数据用途"><a href="#数据用途" class="headerlink" title="数据用途"></a>数据用途</h2><p>以下都是采集用户数据、分析、反馈用户的例子：</p>
+<ul>
+<li>许多电商平台会根据用户的购买、搜索、浏览，在首页给用户推荐商品或推送相应广告。</li>
+<li>许多智能设备，手表手环等，采集用户数据(心率、血氧等)，给予用户健康提醒。</li>
+<li>在交通方面，通过大数据采集用户乘坐流量，来增加航班或高铁等。</li>
+<li>在金融行业，利用大数据分析用户信用，交易等，来对用户进行风险评估。</li>
+</ul>
+<p>其实依靠大数据的还有很多很多，这里不一一举例子。</p>
+<h3 id="数据采集"><a href="#数据采集" class="headerlink" title="数据采集"></a>数据采集</h3><p><img src="/blog/images/big_data/data_collect.png" alt=""></p>
+<p>在数据采集过程中，Web/Android/IOS等数据，通过调用后端API把采集的用户行为数据存储到Kafaka。<br>这里的Load Balance前置，是防止大量请求做的负载均衡，每个公司有自己的负载均衡，如果没有，可以使用云服务商的或nginx。<br>Kafaka是大数据日志采集用的最多的，以下是它的优点：</p>
+<ul>
+<li>Kafka 能够处理极大量的数据，具有出色的吞吐量和低延迟。</li>
+<li>Kafka 提供了水平扩展的能力，可以通过添加更多的节点来扩展系统，以处理不断增长的数据流。 这里如果出现日志堆积，Kafaka是很好的选择。</li>
+<li>Kafka 通过数据的副本和分布式设计，提供了高可靠性和容错性，同时是开源项目，有庞大的社区支持。<br>注意：</li>
+<li>前端数据采集在发送HTTP请求时，需要设置超时时间，防止API因并发数量过大导致响应超时，影响业务系统。</li>
+<li>后端API需要使用异步投递到Kafaka，不处理业务，加速响应请求，这里也体现了业务解耦的重要性。</li>
+</ul>
+<h2 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h2><p><img src="/blog/images/big_data/data_save.png" alt=""></p>
+<p>这里大数据存储使用Hadoop。图中Customers从Kafaka消息队列里拿到数据、计算、spark整理字段、spark使用hive通过sql的形式插入数据到HDFS。<br>Hadoop优点：</p>
+<ul>
+<li>分布式存储、成本低<ul>
+<li>能够在大量的廉价硬件上存储巨大的数据集，并提供高可靠性和容错性</li>
+</ul>
+</li>
+<li>开源生态系统、社区支持庞大<ul>
+<li>Hadoop 生态系统庞大而活跃，包括了许多工具和框架，如Hive、Pig、HBase等，可以满足不同的数据处理需求。</li>
+<li>在搭建好Hadoop后，需要用户安装Hive, Hive非常方便，让我们在Hadoop使用SQL方式创建表，同时进行增删改查操作</li>
+<li>在创建完表之后，需要搭建一套应用程序，处理存储在Kafaka上的用户行为数据</li>
+</ul>
+</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>这里整个应用程序是通过spark submit传送到Hadoop ，作为Hadoop的子项目启动。</li>
+<li>spark任务在会在 HDFS 上创建中间结果、检查点数据或其他临时文件。</li>
+<li>使用spark submit提交的数据，在执行完成后，其中相关的应用程序和包会被当作零时文件清除，通过释放存储空间来保持HDFS的整洁。</li>
+</ul>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><p><img src="/blog/images/big_data/data_analysis.png" alt=""></p>
+<p>在上一次数据存储过程中，经过一次数据整理后的数据存储到HDFS中，目前存储在HDFS的数据基本满足可读性。<br>但对于完整的数据分析远远不够。这里需要对数据进行二次或多次数据分析处理。</p>
+<ul>
+<li>通过上图可以看出，存储在HDFS的数据，通过很多Jenkins批处理任务，来进行不同业务和不同维度的分析。<ul>
+<li>Jenkins通过执行不同的Job任务，把不同的业务处理程序推送到Hadoop，来处理不同业务。最终通过Hadoop Jobs把不同的统计数据存储到MySQL。</li>
+</ul>
+</li>
+<li>在第二个图中，详细讲解了程序运行的流程，介绍如何处理和分析数据。<ul>
+<li>Hadoop Jobs从HDFS读取业务数据，使用Hive，让它以执行SQL的方式把数据读取出来。</li>
+<li>通过Hive读取的数据，再通过Spark在内存中对数据的行列进行数据分析(增删改查)，分析出业务所需要的数据。</li>
+<li>将分析出来的数据，第一步通过JDBC, 来存储到MySQL，第二步，通过异步Async的方式降数据存储到Kafaka中,以便进行二次分析。</li>
+<li>二次分析，还是通过Customers读取Kafaka队列里的业务数据，业务数据经过Spark/Hive的转换和分析，把计算出来的数据通过SQL的方式存储到HDFS。</li>
+</ul>
+</li>
+</ul>
+<p>经过一次，二次，多次的数据分析，形成业务所需要的数据。这里一般是按照年、月、日、时、分形成的统计数据。把分析好的数据存储到MySQL中，方便数据展示。</p>
+<h2 id="数据可视化和数据接口"><a href="#数据可视化和数据接口" class="headerlink" title="数据可视化和数据接口"></a>数据可视化和数据接口</h2><p><img src="/blog/images/big_data/data_visualization_interface.png" alt=""></p>
+<p>经历过一次或多次数据分析，完善的统计数据已经存储到MySQL了，这个时候需要把数据通过网页展示出来，方便数据查看。<br>同时这个数据也可以通过API接口，提供给第三方服务使用。<br>这里前端可以采用Vue。 后端可以采用Python Django。</p>
+<p>Vue优点：</p>
+<ul>
+<li>轻量级和简单<ul>
+<li>Vue.js的核心库只有20KB左右，非常轻量级，易于学习和使用。使用组件化开发，类似一个页面一个组件。</li>
+</ul>
+</li>
+<li>响应式数据绑定 <ul>
+<li>Vue.js采用数据绑定技术，使得数据与视图之间的同步变得非常容易。当数据发生变化时，视图会自动更新，简化了开发人员的工作。</li>
+</ul>
+</li>
+<li>社区支持<ul>
+<li>Vue.js拥有庞大的社区和支持，使得开发人员可以找到大量的资源和帮助。Vue.js的文档也非常完整，易于理解和使用。</li>
+</ul>
+</li>
+</ul>
+<p>Django优点：</p>
+<ul>
+<li>功能强大<ul>
+<li>Django自带了大量常用工具和框架，如数据库访问组件、模板语言、后台管理系统等，可轻松、迅速开发出一个功能齐全的Web应用。</li>
+</ul>
+</li>
+<li>可维护性高和安全性<ul>
+<li>Django提供了很多可重用的组件，使代码具有高度可维护性。同时也提供了很多安全功能，如跨站请求伪造(CSRF)保护和密码安全性。</li>
+</ul>
+</li>
+<li>文档完善<ul>
+<li>Django已发展十余年，具有广泛的实践案例，同时Django提供完善的在线文档，Django用户能够更容易地找到问题的解决方案。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>上图的第一个图，展示了用户访问数据平台的主要流程</li>
+</ol>
+<ul>
+<li>用户通过浏览器访问数据平台，浏览器通过DNS解析域名,访问 Web服务。</li>
+<li>详细流程如下： <ul>
+<li>前端使用Vue框架编写代码，安装好相应的包之后，build编译生成相关静态页面html/css/js。 </li>
+<li>Nginx 挂载html/css/js</li>
+<li>浏览器发送的请求访问Nginx，Nginx返回对应静态文件，浏览器通过返回的静态文件加载出页面，显示给用户。</li>
+<li>页面初始化或用户请求对应统计数据，访问API Server。</li>
+<li>API Server通过Nginx转发对应请求到UWSGI服务。</li>
+<li>UWSGI 访问Django服务，Django服务请求MySQL对应表数据，然后整理出来返回数据。<br>通过以上流程用户就可以通过浏览器页面，查看到对应的统计数据。</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>上图第二个图，展示了第三方服务通过API访问业务数据流程，API Server流程介绍如上(1.5, 1.6)。</li>
+</ol>
+<h2 id="总结和思考"><a href="#总结和思考" class="headerlink" title="总结和思考"></a>总结和思考</h2><ul>
+<li>以上就是大数据从数据采集到最终数据展示和提供接口的主要流程。总的来说大数据处理流程很长，用的工具也很多，包含很多技术。也间接证明了处理数据的不容易。<br>大数据处理的每个环节都很重要。要深入研究它，需要花费很长时间。</li>
+<li>希望未来大数据可以与BI和AI结合，提供更加高级的数据挖掘和分析。</li>
+<li>总结：HDFS作为数据存储基础，Spark作为数据处理和分析的重要工具，MySQL作为多次数据分析的最终存储，Django+Vue作为数据展示的最终平台。</li>
+<li>下次有机会分享下数据处理和分析的核心Spark。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>大数据</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习</title>
+    <url>/blog/post/27131qqw.html</url>
+    <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
+<li>在学习过程中，最大程度的理解知识。</li>
+</ul>
+<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
+<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。<a id="more"></a>
+</li>
+</ul>
+<h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
+<li>将知识一次又一次的教授他人，温故而知新。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://baike.baidu.com/item/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/50895393" target="_blank" rel="noopener">费曼学习法</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>思考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>方法论思考</title>
+    <url>/blog/post/27131bww.html</url>
+    <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。<br><a id="more"></a></p>
+<h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
+<li>在思考问题的时候，尽量去发现问题的本质，不要过多的纠结细节，找到本质，找到方法论，这样就会事半功倍，比自己想到什么说什么好。</li>
+<li>著名的5why分析法也是这个原理。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://en.wikipedia.org/wiki/Five_whys" target="_blank" rel="noopener">5why</a> </li>
+<li><a href="https://zhuanlan.zhihu.com/p/28573268" target="_blank" rel="noopener">自我方法论</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>方法论</category>
+      </categories>
+      <tags>
+        <tag>思考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>管理系统之用户登录</title>
+    <url>/blog/post/9a65f1fa.html</url>
+    <content><![CDATA[<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
+<li>同一个账号只能一处登录</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
+<li>修改flask session（保存在内存中）存储到redis</li>
+<li>参考flask_session 修改save_session，只在用户登录时存储当前session到redis（避免其他访问存储session）</li>
+<li>在用户登录的接口中，清除当前用户存储在redis中的其他session<a id="more"></a></li>
+<li>用户每次访问判断当前用户session和redis中是否一致，实现同一个账号只能一处登录</li>
+</ul>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><ul>
+<li>flask_login</li>
+<li>flask_session(参考)</li>
+</ul>
+<h2 id="flask-login-记住帐号访问"><a href="#flask-login-记住帐号访问" class="headerlink" title="flask_login 记住帐号访问"></a>flask_login 记住帐号访问</h2><ul>
+<li>携带session(remember_token包含用户id)发送请求</li>
+<li>通过用户id加载用户 @login_manager.user_loader 数据库获取用户信息</li>
+</ul>
+<h2 id="同一个账号一处登录"><a href="#同一个账号一处登录" class="headerlink" title="同一个账号一处登录"></a>同一个账号一处登录</h2><ul>
+<li>管理系统后台使用flask</li>
+<li>存储用户session使用redis</li>
+<li>参考flask_session </li>
+<li>登录时判断当前用户的session和redis这个用户的session的值是否相同，相同则删除redis的其他session(保证一个帐号，同一时间只能一个在线)</li>
+<li>保存此次登录用户的session</li>
+<li>save_session只保存登录session，登出logout_user会清除当前用户的session</li>
+</ul>
+<h2 id="记住帐号"><a href="#记住帐号" class="headerlink" title="记住帐号"></a>记住帐号</h2><ul>
+<li>默认使用</li>
+<li>在@login_manager.user_loader中查询当前用户的session是否在redis session中</li>
+<li>如果session失效(浏览器关闭、登出)，记住功能失效，需要重新登录</li>
+</ul>
+<h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
+<li>总体来说根据自己的需求和想法，修改了flask_session和用户登录接口</li>
+<li>flask_session会不会有更好的解决方法</li>
+<li>session和token都存在安全问题，简单的可以采用请求签名认证，最好的使用https</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>flask</tag>
+        <tag>flask_login</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>白猫灰猫黑猫算法</title>
+    <url>/blog/post/b31a5b39.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>偶尔发现一篇<a href="https://www.infoq.cn/article/how-to-judge-coding-ability" target="_blank" rel="noopener">文章</a>, 提到了白猫灰猫黑猫的问题</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>问题1: 有一个数组，数组中存储的是 Cat 对象，每个 Cat 对象有多个成员变量，其中一个代表颜色 color，有两个值白色和黑色，要求编写一个函数将数组中所有的白猫都放到黑猫前面</li>
+<li>问题2: 如果猫的颜色有三种，白色、黑色、灰色，编写一个函数将数组中白猫放到最前面，灰猫放到中间，黑猫放到最后面，比如：原来数组为 黑白灰白白黑灰灰，经过排序之后白白白灰灰黑黑<a id="more"></a></li>
+<li>问题3: 不仅白灰黑之间按顺序排列，而且白猫，灰猫，黑猫各自内部原来的先后顺序也不能变</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
+<li>思考本质其实某些算法的变种</li>
+<li>数组的原地排序，可以想到双指针算法 coding先写一个</li>
+<li><p>问题1 代码 双指针算法  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">29</span>]: <span class="class"><span class="keyword">class</span> <span class="title">Cat</span>:</span></span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, color)</span>:</span></span><br><span class="line">    ...:         self.color = color</span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    ...:         <span class="keyword">return</span> <span class="string">'id: &#123;0&#125;, color: &#123;1&#125;'</span>.format(id(self), self.color)</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">30</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">31</span>]: cats_list</span><br><span class="line">Out[<span class="number">31</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br><span class="line"></span><br><span class="line">In [<span class="number">32</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">33</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">34</span>]: cats_list</span><br><span class="line">Out[<span class="number">34</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题2 还是可以用双指针/多指针  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">40</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">41</span>]: cats_list</span><br><span class="line">Out[<span class="number">41</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white]</span><br><span class="line"></span><br><span class="line">In [<span class="number">42</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="comment"># 排序白色猫</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:     <span class="comment">#排序灰色猫</span></span><br><span class="line">    ...:     k = i</span><br><span class="line">    ...:     <span class="keyword">for</span> index <span class="keyword">in</span> range(i, len(cats_list)):</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[index].color == <span class="string">'grey'</span>:</span><br><span class="line">    ...:             cats_list[k], cats_list[index] = cats_list[index], cats_list[k]</span><br><span class="line">    ...:             k += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">43</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">44</span>]: cats_list</span><br><span class="line">Out[<span class="number">44</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题3，思考了下，双指针的排序，但是在顺序上是有变化的</p>
+</li>
+<li>这里借助网络查询，google到 双指针/多指针问题 查询得到<a href="https://blog.csdn.net/qqxx6661/article/details/78841302" target="_blank" rel="noopener">文章地址</a></li>
+<li>发现是荷兰国旗问题 <a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener">LeetCode第75题</a></li>
+<li>参考LeetCode第75题，完善问题2，三指针，实现一次循环</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">45</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     p0 = curr = <span class="number">0</span></span><br><span class="line">    ...:     p2 = len(cats_list) - <span class="number">1</span></span><br><span class="line">    ...:     <span class="keyword">while</span> curr &lt;= p2:</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[curr].color == <span class="string">'white'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p0] = cats_list[p0], cats_list[curr]</span><br><span class="line">    ...:             p0 += <span class="number">1</span></span><br><span class="line">    ...:             curr += <span class="number">1</span></span><br><span class="line">    ...:         <span class="keyword">elif</span> cats_list[curr].color == <span class="string">'black'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p2] = cats_list[p2], cats_list[curr]</span><br><span class="line">    ...:             p2 -= <span class="number">1</span> <span class="comment"># 交换位置后需判断curr，所以curr不加1</span></span><br><span class="line">    ...:         <span class="keyword">else</span>:</span><br><span class="line">    ...:             curr += <span class="number">1</span>  </span><br><span class="line">    ...:</span><br></pre></td></tr></table></figure>
+<ul>
+<li>目前问题3 还没有找到解题方法</li>
+</ul>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><ul>
+<li>问题的本质是数组的原地排序，双指针/多指针问题</li>
+<li>有些时候，我们直接去寻找问题，可能并不会得到结果。这时候，我们不妨想想，这个问题的本质是用了哪类型的算法，是不是它的变种</li>
+<li>这样就会更好的去找到问题和解决问题</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>双指针</tag>
+        <tag>多指针</tag>
+      </tags>
+  </entry>
+</search>
