@@ -31,9 +31,9 @@ jobs:
         run: hexo clean && hexo generate
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages
-          token: ${{ secrets.GITHUB_TOKEN }}
-          folder: .
-          clean: true
+          personal_token: ${{ secrets.PERSONAL_TOKEN }}
+          publish_dir: ./public
+          external_repository: runtangr/runtangr.github.io/blog
+          publish_branch: gh-pages
