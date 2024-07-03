@@ -28,6 +28,11 @@ jobs:
         run: |
           git config --global user.name 'runtangr'
           git config --global user.email 'runtangrui@gmail.com'
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           
       - name: Generate static files
         run: npx hexo generate
