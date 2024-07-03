@@ -23,21 +23,13 @@ jobs:
           
       - name: Install dependencies
         run: npm install
-        
-      - name: Configure Git user
-        run: |
-          git config --global user.name 'runtangr'
-          git config --global user.email 'runtangrui@gmail.com'
-
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           
-      - name: Generate static files
-        run: npx hexo generate
+      - name: Build
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx hexo deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+          folder: build
