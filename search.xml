@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>django外键之指定字段</title>
-    <url>/blog/post/b31a5b38.html</url>
+    <url>/post/b31a5b38.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
 <li>数据库表已经定义，有关联关系字段</li>
 <li>django程序model指定关联关系字段  <a id="more"></a>
@@ -34,7 +34,7 @@
   </entry>
   <entry>
     <title>git rebase 工作流</title>
-    <url>/blog/post/27141bww.html</url>
+    <url>/post/27141bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
 <li>在工作中，使用git rebase工作流，对git的使用有一些理解，在此记录下。<a id="more"></a>
 </li>
@@ -88,7 +88,7 @@
   </entry>
   <entry>
     <title>专注</title>
-    <url>/blog/post/272331qqw.html</url>
+    <url>/post/272331qqw.html</url>
     <content><![CDATA[<h2 id="如何保持专注"><a href="#如何保持专注" class="headerlink" title="如何保持专注"></a>如何保持专注</h2><h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><ul>
 <li>今天来公司上班，想到今天的任务安排。几点到几点该干什么，然后几点到几点又该干什么。想到自己的人生目标有许多，额，也没有几个 4，5个。</li>
 <li>什么时间段该干什么，总是感觉有做不完的事。思绪也会在不同事情的切换中被打断。到后面一天又过去了什么事也没做。</li>
@@ -110,27 +110,8 @@
       </tags>
   </entry>
   <entry>
-    <title>使用k8s</title>
-    <url>/blog/post/27141bca.html</url>
-    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
-<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
-<p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
-<h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
-<p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
-<p>type:外部访问方式 <a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0" target="_blank" rel="noopener">原文链接</a> <a href="http://dockone.io/article/4884" target="_blank" rel="noopener">译文链接</a><br>kubectl create -f redis-test-svc.yaml  </p>
-<p>自此，整个简单的开发到部署k8s流程已经简要介绍。后续还有许多将深入学习。  </p>
-<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://dockone.io/article/4884" target="_blank" rel="noopener">http://dockone.io/article/4884</a><br><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" rel="noopener">https://kubernetes.io/docs/tutorials/kubernetes-basics</a></p>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用celery之web应用</title>
-    <url>/blog/post/4bd0c7ac.html</url>
+    <url>/post/4bd0c7ac.html</url>
     <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><ul>
 <li>web 应用采用同步方式，响应时间过长。</li>
 <li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。<a id="more"></a>
@@ -155,8 +136,27 @@
       </tags>
   </entry>
   <entry>
+    <title>使用k8s</title>
+    <url>/post/27141bca.html</url>
+    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><p>1.工作中测试和生产使用了k8s环境。<br>2.k8s集群资源利用率高，对docker容器管理方便。</p>
+<h2 id="流程简介"><a href="#流程简介" class="headerlink" title="流程简介"></a>流程简介</h2><p>目前所熟悉的开发到部署的流程。流程如下：<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">本地 --&gt; gitlab --&gt; jenkins --&gt; k8s</span><br></pre></td></tr></table></figure></p>
+<p>1.&ensp;本地开发完成后推送到gitlab。<br>2.&ensp;jenkins 使用pipeline-Script 编写脚本。(主要是使用脚本实现)<br>&ensp;&ensp; 2.1 获取gitlab代码。获取配置文件。<br>&ensp;&ensp; 2.2 根据配置文件tag，编译docker镜像。<br>&ensp;&ensp; 2.3 登录远程镜像仓库，push镜像。<br>&ensp;&ensp; 2.4 ssh自动登录k8s master节点，kubectl set image从远程镜像仓库滚动更新k8s容器镜像。<br>3.&ensp;k8s 运行deployment和service。  </p>
+<h2 id="k8s使用简介"><a href="#k8s使用简介" class="headerlink" title="k8s使用简介"></a>k8s使用简介</h2><p>建议新手自搭k8s集群。<br>初始化创建，通过yaml创建deployment。<br>Deployment代码redis-test-deploy.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">      - name:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">        image:</span> <span class="string">nginx</span> <span class="comment">#可以使用自己的web镜像仓库</span></span><br><span class="line"><span class="attr">        ports:</span></span><br><span class="line"><span class="attr">        - containerPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>kubectl create -f redis-test-deploy.yaml<br>Service代码redis-test-svc.yaml实例：<br><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">nginx-service</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">NodePort</span> <span class="comment">#访问方式</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="attr">    - port:</span> <span class="number">80</span></span><br><span class="line"><span class="attr">      targetPort:</span> <span class="number">80</span></span><br></pre></td></tr></table></figure></p>
+<p>type:外部访问方式 <a href="https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0" target="_blank" rel="noopener">原文链接</a> <a href="http://dockone.io/article/4884" target="_blank" rel="noopener">译文链接</a><br>kubectl create -f redis-test-svc.yaml  </p>
+<p>自此，整个简单的开发到部署k8s流程已经简要介绍。后续还有许多将深入学习。  </p>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><p><a href="http://dockone.io/article/4884" target="_blank" rel="noopener">http://dockone.io/article/4884</a><br><a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/" target="_blank" rel="noopener">https://kubernetes.io/docs/tutorials/kubernetes-basics</a></p>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>大数据平台</title>
-    <url>/blog/post/27q31qqw.html</url>
+    <url>/post/27q31qqw.html</url>
     <content><![CDATA[<h2 id="起始"><a href="#起始" class="headerlink" title="起始"></a>起始</h2><p>由于目前在music data部门，虽然目前只做了大数据可视化这一块工作。但是因自身对整个数据流的兴趣，从而产生了对整个大数据架构的兴趣和学习。<br>其中有错误的地方，希望读者指正，在后期的学习过程中，会继续更新这篇文章。<br>以下是我理解的大数据的一种可行性基础架构。<br><a id="more"></a></p>
 <h2 id="数据用途"><a href="#数据用途" class="headerlink" title="数据用途"></a>数据用途</h2><p>以下都是采集用户数据、分析、反馈用户的例子：</p>
 <ul>
@@ -277,7 +277,7 @@
   </entry>
   <entry>
     <title>学习</title>
-    <url>/blog/post/27131qqw.html</url>
+    <url>/post/27131qqw.html</url>
     <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
 <li>在学习过程中，最大程度的理解知识。</li>
 </ul>
@@ -301,7 +301,7 @@
   </entry>
   <entry>
     <title>方法论思考</title>
-    <url>/blog/post/27131bww.html</url>
+    <url>/post/27131bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。<br><a id="more"></a></p>
 <h2 id="自我方法论的产生"><a href="#自我方法论的产生" class="headerlink" title="自我方法论的产生"></a>自我方法论的产生</h2><p>从上面可以看出自我方法论的产生，”4S分析法”首先不是我想的，是前人想到到，所有自我方法论形成，<strong>学习其他人的方法论+自己的思考和见解</strong>。这里自己的思考和见解是怎么产生的？这里涉及到处理这个问题，自己携带的<strong>目的性</strong>。每个人处理相同的问题，自己的目的性可能是不同的，导致处理结果不同，这里和外部因素、自身因素有关。</p>
 <h2 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h2><ul>
@@ -322,7 +322,7 @@
   </entry>
   <entry>
     <title>白猫灰猫黑猫算法</title>
-    <url>/blog/post/b31a5b39.html</url>
+    <url>/post/b31a5b39.html</url>
     <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
 <li>偶尔发现一篇<a href="https://www.infoq.cn/article/how-to-judge-coding-ability" target="_blank" rel="noopener">文章</a>, 提到了白猫灰猫黑猫的问题</li>
 </ul>
@@ -366,7 +366,7 @@
   </entry>
   <entry>
     <title>管理系统之用户登录</title>
-    <url>/blog/post/9a65f1fa.html</url>
+    <url>/post/9a65f1fa.html</url>
     <content><![CDATA[<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><ul>
 <li>同一个账号只能一处登录</li>
 </ul>

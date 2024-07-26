@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 3.7.1">
-  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/blog/images/logo.svg" color="#222">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-<link rel="stylesheet" href="/blog/css/main.css">
+<link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/blog/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"runtangr.github.io/blog","root":"/blog/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"runtangr.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1280072327659262" crossorigin="anonymous"></script>
@@ -26,16 +26,16 @@
 <meta name="keywords" content="思考">
 <meta property="og:type" content="article">
 <meta property="og:title" content="方法论思考">
-<meta property="og:url" content="runtangr.github.io/blog/post/27131bww.html">
+<meta property="og:url" content="runtangr.github.io/post/27131bww.html">
 <meta property="og:site_name" content="TangRui&#39;s Blog">
 <meta property="og:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2024-07-26T02:53:11.089Z">
+<meta property="og:updated_time" content="2024-07-26T02:57:23.414Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="方法论思考">
 <meta name="twitter:description" content="起因今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是设计（系统设计），系统设计问题的回答方法-&amp;gt;4S分析法。这让我想到了方法论，自我方法论。">
 
-<link rel="canonical" href="runtangr.github.io/blog/post/27131bww.html">
+<link rel="canonical" href="runtangr.github.io/post/27131bww.html">
 
 
 <script id="page-configurations">
@@ -97,7 +97,7 @@
 
   <div class="site-meta">
 
-    <a href="/blog/" class="brand" rel="start">
+    <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">TangRui's Blog</h1>
       <span class="logo-line-after"><i></i></span>
@@ -118,12 +118,12 @@
   <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/blog/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/blog/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -181,10 +181,10 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="runtangr.github.io/blog/post/27131bww.html">
+    <link itemprop="mainEntityOfPage" href="runtangr.github.io/post/27131bww.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/blog/images/avatar.gif">
+      <meta itemprop="image" content="/images/avatar.gif">
       <meta itemprop="name" content="TangRui">
       <meta itemprop="description" content="改变，就是好事。">
     </span>
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2024-07-26 02:53:11" itemprop="dateModified" datetime="2024-07-26T02:53:11+00:00">2024-07-26</time>
+                <time title="修改时间：2024-07-26 02:57:23" itemprop="dateModified" datetime="2024-07-26T02:57:23+00:00">2024-07-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,7 +219,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/blog/categories/方法论/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
+                  <a href="/categories/方法论/" itemprop="url" rel="index"><span itemprop="name">方法论</span></a>
                 </span>
             </span>
 
@@ -253,7 +253,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/blog/tags/思考/" rel="tag"># 思考</a>
+              <a href="/tags/思考/" rel="tag"># 思考</a>
           </div>
 
         
@@ -262,11 +262,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/blog/post/27141bww.html" rel="prev" title="git rebase 工作流">
+    <a href="/post/27141bww.html" rel="prev" title="git rebase 工作流">
       <i class="fa fa-chevron-left"></i> git rebase 工作流
     </a></div>
       <div class="post-nav-item">
-    <a href="/blog/post/27131qqw.html" rel="next" title="学习">
+    <a href="/post/27131qqw.html" rel="next" title="学习">
       学习 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -339,19 +339,19 @@
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
-          <a href="/blog/archives/">
+          <a href="/archives/">
         
           <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-            <a href="/blog/categories/">
+            <a href="/categories/">
         <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-            <a href="/blog/tags/">
+            <a href="/tags/">
         <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
@@ -402,12 +402,12 @@
   </div>
 
   
-  <script src="/blog/lib/anime.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.min.js"></script>
-  <script src="/blog/lib/velocity/velocity.ui.min.js"></script>
-<script src="/blog/js/utils.js"></script><script src="/blog/js/motion.js"></script>
-<script src="/blog/js/schemes/pisces.js"></script>
-<script src="/blog/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/pisces.js"></script>
+<script src="/js/next-boot.js"></script>
 
 
 
@@ -416,7 +416,7 @@
 
 
 
-  <script src="/blog/js/local-search.js"></script>
+  <script src="/js/local-search.js"></script>
 
 
 
