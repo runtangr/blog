@@ -1,6 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>django外键之指定字段</title>
+    <url>/blog/post/b31a5b38.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>数据库表已经定义，有关联关系字段</li>
+<li>django程序model指定关联关系字段  <a id="more"></a>
+</li>
+</ul>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
+<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><h3 id="通用外键-1"><a href="#通用外键-1" class="headerlink" title="通用外键"></a>通用外键</h3><ul>
+<li>数据库表的创建使用django通用的 %s_id 作为外键 如：group_id</li>
+<li>未创建数据库，使用django统一创建</li>
+</ul>
+<h3 id="指定外键"><a href="#指定外键" class="headerlink" title="指定外键"></a>指定外键</h3><ul>
+<li>数据库表的创建使用非django 通用的字段作为外键 如：group_num</li>
+<li>已创建数据库，指定关联字段</li>
+</ul>
+<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><ul>
+<li><p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" target="_blank" rel="noopener">官方文档</a>   </p>
+</li>
+<li><p><a href="https://github.com/django/django/blob/master/django/db/models/fields/related.py" target="_blank" rel="noopener">django源码</a>  </p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>django</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>git rebase 工作流</title>
     <url>/blog/post/27141bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><ul>
@@ -55,64 +87,6 @@
       </tags>
   </entry>
   <entry>
-    <title>django外键之指定字段</title>
-    <url>/blog/post/b31a5b38.html</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>数据库表已经定义，有关联关系字段</li>
-<li>django程序model指定关联关系字段  <a id="more"></a>
-</li>
-</ul>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="通用外键"><a href="#通用外键" class="headerlink" title="通用外键"></a>通用外键</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Car</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    manufacturer = models.ForeignKey(</span><br><span class="line">        <span class="string">'Manufacturer'</span>,</span><br><span class="line">        on_delete=models.CASCADE,</span><br><span class="line">    )</span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Manufacturer</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-<p>指定外键<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	user_name = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group = models.ForeignKey(</span><br><span class="line">        	  <span class="string">'Group'</span>,</span><br><span class="line">        	  to_field=<span class="string">'group_id'</span>,  <span class="comment"># 关联model的字段</span></span><br><span class="line">       	      db_column=<span class="string">'group_num'</span>,  <span class="comment"># 自身表对应字段</span></span><br><span class="line">        	  verbose_name=<span class="string">'用户组'</span>,</span><br><span class="line">        	  on_delete=models.CASCADE)</span><br><span class="line"></span><br><span class="line">	 </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Group</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">	group_id = models.CharField(max_length=<span class="number">32</span>)</span><br><span class="line">	group_name = models.CharField(max_length=<span class="number">32</span>)</span><br></pre></td></tr></table></figure></p>
-<h2 id="运用场景"><a href="#运用场景" class="headerlink" title="运用场景"></a>运用场景</h2><h3 id="通用外键-1"><a href="#通用外键-1" class="headerlink" title="通用外键"></a>通用外键</h3><ul>
-<li>数据库表的创建使用django通用的 %s_id 作为外键 如：group_id</li>
-<li>未创建数据库，使用django统一创建</li>
-</ul>
-<h3 id="指定外键"><a href="#指定外键" class="headerlink" title="指定外键"></a>指定外键</h3><ul>
-<li>数据库表的创建使用非django 通用的字段作为外键 如：group_num</li>
-<li>已创建数据库，指定关联字段</li>
-</ul>
-<h2 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h2><ul>
-<li><p><a href="https://docs.djangoproject.com/en/2.2/ref/models/fields/#django.db.models.ForeignKey" target="_blank" rel="noopener">官方文档</a>   </p>
-</li>
-<li><p><a href="https://github.com/django/django/blob/master/django/db/models/fields/related.py" target="_blank" rel="noopener">django源码</a>  </p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>django</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用celery之web应用</title>
-    <url>/blog/post/4bd0c7ac.html</url>
-    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><ul>
-<li>web 应用采用同步方式，响应时间过长。</li>
-<li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。<a id="more"></a>
-</li>
-</ul>
-<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/blog/images/celery_web/celery_web_1.jpg" alt=""></p>
-<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>local.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> make_celery</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(config[<span class="string">'local'</span>])</span><br><span class="line">config[<span class="string">'local'</span>].init_app(app)</span><br><span class="line">app.config.update(RESTFUL_JSON=dict(ensure_ascii=<span class="keyword">False</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> celery_task <span class="keyword">import</span> celery_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化celery</span></span><br><span class="line">celery = make_celery(app)</span><br><span class="line">manager = Manager(app=app)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    test = request.args.get(<span class="string">'test'</span>,<span class="string">''</span>)</span><br><span class="line">    msg = &#123;<span class="string">'test'</span>: test&#125;</span><br><span class="line">    result = celery_test.delay(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">','</span>.join([<span class="string">'status:&#123;&#125;'</span>.format(result.status),</span><br><span class="line">                     <span class="string">'task_id:&#123;&#125;'</span>.format(result.task_id)</span><br><span class="line">                     ])</span><br><span class="line">             </span><br><span class="line">                     </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure></p>
-<p>config.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_app</span><span class="params">(app)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LocalConfig</span><span class="params">(Config)</span>:</span></span><br><span class="line">    CONFIG_NAME = <span class="string">'local'</span></span><br><span class="line">   </span><br><span class="line">    <span class="comment"># CELERY</span></span><br><span class="line">    CELERY_BROKER_URL = <span class="string">'redis://localhost:6379/1'</span></span><br><span class="line">    CELERY_RESULT_BACKEND = <span class="string">'redis://localhost:6379/2'</span></span><br><span class="line">    CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></span><br><span class="line">    CELERY_IMPORTS = (</span><br><span class="line">        <span class="string">"celery_task"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">config = &#123;</span><br><span class="line">    <span class="string">'local'</span>: LocalConfig,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>make_celery.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">celery = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_celery</span><span class="params">(app)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> celery</span><br><span class="line">    celery = Celery(app.import_name, backend=app.config[<span class="string">'CELERY_RESULT_BACKEND'</span>], broker=app.config[<span class="string">'CELERY_BROKER_URL'</span>])</span><br><span class="line">    celery.conf.update(app.config)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ContextTask</span><span class="params">(celery.Task)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">with</span> app.app_context():</span><br><span class="line">                <span class="keyword">return</span> self.run(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    celery.Task = ContextTask</span><br><span class="line">    <span class="keyword">return</span> celery</span><br></pre></td></tr></table></figure></p>
-<p>celery_task.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@celery.task()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">celery_test</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># deal msg</span></span><br><span class="line">    print(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'balabala'</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>python local.py runserver<br>celery worker -A local.celery -l info<br>访问: <a href="http://127.0.0.1:5000/" target="_blank" rel="noopener">http://127.0.0.1:5000/</a></p>
-<h2 id="思考和深入"><a href="#思考和深入" class="headerlink" title="思考和深入"></a>思考和深入</h2><pre><code>* 学习基础用法.
-* 学习高级用法.
-* 学习相关依赖库.
-</code></pre>]]></content>
-      <categories>
-        <category>技术</category>
-      </categories>
-      <tags>
-        <tag>celery</tag>
-        <tag>flask</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>专注</title>
     <url>/blog/post/272331qqw.html</url>
     <content><![CDATA[<h2 id="如何保持专注"><a href="#如何保持专注" class="headerlink" title="如何保持专注"></a>如何保持专注</h2><h3 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h3><ul>
@@ -152,30 +126,6 @@
       </categories>
       <tags>
         <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>学习</title>
-    <url>/blog/post/27131qqw.html</url>
-    <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
-<li>在学习过程中，最大程度的理解知识。</li>
-</ul>
-<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
-<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。<a id="more"></a>
-</li>
-</ul>
-<h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
-<li>将知识一次又一次的教授他人，温故而知新。</li>
-</ul>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
-<li><a href="https://baike.baidu.com/item/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/50895393" target="_blank" rel="noopener">费曼学习法</a></li>
-</ul>
-]]></content>
-      <categories>
-        <category>学习</category>
-      </categories>
-      <tags>
-        <tag>思考</tag>
       </tags>
   </entry>
   <entry>
@@ -300,6 +250,56 @@
       </tags>
   </entry>
   <entry>
+    <title>使用celery之web应用</title>
+    <url>/blog/post/4bd0c7ac.html</url>
+    <content><![CDATA[<h2 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h2><ul>
+<li>web 应用采用同步方式，响应时间过长。</li>
+<li>现有web项目基于flask, celery异步任务功能健全, 方便, 更加适合。<a id="more"></a>
+</li>
+</ul>
+<h2 id="处理流程"><a href="#处理流程" class="headerlink" title="处理流程"></a>处理流程</h2><p><img src="/blog/images/celery_web/celery_web_1.jpg" alt=""></p>
+<h2 id="demo"><a href="#demo" class="headerlink" title="demo"></a>demo</h2><p>local.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> flask_script <span class="keyword">import</span> Manager</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> make_celery</span><br><span class="line"><span class="keyword">from</span> config <span class="keyword">import</span> config</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line">app.config.from_object(config[<span class="string">'local'</span>])</span><br><span class="line">config[<span class="string">'local'</span>].init_app(app)</span><br><span class="line">app.config.update(RESTFUL_JSON=dict(ensure_ascii=<span class="keyword">False</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> celery_task <span class="keyword">import</span> celery_test</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化celery</span></span><br><span class="line">celery = make_celery(app)</span><br><span class="line">manager = Manager(app=app)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">()</span>:</span></span><br><span class="line">    test = request.args.get(<span class="string">'test'</span>,<span class="string">''</span>)</span><br><span class="line">    msg = &#123;<span class="string">'test'</span>: test&#125;</span><br><span class="line">    result = celery_test.delay(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">','</span>.join([<span class="string">'status:&#123;&#125;'</span>.format(result.status),</span><br><span class="line">                     <span class="string">'task_id:&#123;&#125;'</span>.format(result.task_id)</span><br><span class="line">                     ])</span><br><span class="line">             </span><br><span class="line">                     </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    manager.run()</span><br></pre></td></tr></table></figure></p>
+<p>config.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Config</span>:</span></span><br><span class="line">    </span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">init_app</span><span class="params">(app)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LocalConfig</span><span class="params">(Config)</span>:</span></span><br><span class="line">    CONFIG_NAME = <span class="string">'local'</span></span><br><span class="line">   </span><br><span class="line">    <span class="comment"># CELERY</span></span><br><span class="line">    CELERY_BROKER_URL = <span class="string">'redis://localhost:6379/1'</span></span><br><span class="line">    CELERY_RESULT_BACKEND = <span class="string">'redis://localhost:6379/2'</span></span><br><span class="line">    CELERY_TIMEZONE = <span class="string">'Asia/Shanghai'</span></span><br><span class="line">    CELERY_IMPORTS = (</span><br><span class="line">        <span class="string">"celery_task"</span>,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">config = &#123;</span><br><span class="line">    <span class="string">'local'</span>: LocalConfig,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>make_celery.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># -*- encoding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> celery <span class="keyword">import</span> Celery</span><br><span class="line"></span><br><span class="line">celery = <span class="keyword">None</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">make_celery</span><span class="params">(app)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> celery</span><br><span class="line">    celery = Celery(app.import_name, backend=app.config[<span class="string">'CELERY_RESULT_BACKEND'</span>], broker=app.config[<span class="string">'CELERY_BROKER_URL'</span>])</span><br><span class="line">    celery.conf.update(app.config)</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">ContextTask</span><span class="params">(celery.Task)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, *args, **kwargs)</span>:</span></span><br><span class="line">            <span class="keyword">with</span> app.app_context():</span><br><span class="line">                <span class="keyword">return</span> self.run(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    celery.Task = ContextTask</span><br><span class="line">    <span class="keyword">return</span> celery</span><br></pre></td></tr></table></figure></p>
+<p>celery_task.py<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> make_celery <span class="keyword">import</span> celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@celery.task()</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">celery_test</span><span class="params">(msg)</span>:</span></span><br><span class="line">    <span class="comment"># deal msg</span></span><br><span class="line">    print(msg)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'balabala'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><p>python local.py runserver<br>celery worker -A local.celery -l info<br>访问: <a href="http://127.0.0.1:5000/" target="_blank" rel="noopener">http://127.0.0.1:5000/</a></p>
+<h2 id="思考和深入"><a href="#思考和深入" class="headerlink" title="思考和深入"></a>思考和深入</h2><pre><code>* 学习基础用法.
+* 学习高级用法.
+* 学习相关依赖库.
+</code></pre>]]></content>
+      <categories>
+        <category>技术</category>
+      </categories>
+      <tags>
+        <tag>celery</tag>
+        <tag>flask</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>学习</title>
+    <url>/blog/post/27131qqw.html</url>
+    <content><![CDATA[<h2 id="对于学习的思考"><a href="#对于学习的思考" class="headerlink" title="对于学习的思考"></a>对于学习的思考</h2><h3 id="学习"><a href="#学习" class="headerlink" title="学习"></a>学习</h3><ul>
+<li>在学习过程中，最大程度的理解知识。</li>
+</ul>
+<h3 id="回顾"><a href="#回顾" class="headerlink" title="回顾"></a>回顾</h3><ul>
+<li>梳理学习过的知识，强化记忆。梳理过程中出现问题，重新去理解知识。<a id="more"></a>
+</li>
+</ul>
+<h3 id="讲解"><a href="#讲解" class="headerlink" title="讲解"></a>讲解</h3><ul>
+<li>将知识一次又一次的教授他人，温故而知新。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://baike.baidu.com/item/%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95/50895393" target="_blank" rel="noopener">费曼学习法</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>学习</category>
+      </categories>
+      <tags>
+        <tag>思考</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>方法论思考</title>
     <url>/blog/post/27131bww.html</url>
     <content><![CDATA[<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>今天突然想到曾经的一场面试，问题大概是这样的 “微博的热点功能是怎么设计的？”，当时我想了很多，主要是数据库选择、数据结构设计、并发的问题。感觉回答的很散乱。今天突然想到了，我没有理解到问题的本质，如果我们把问题核心提出来，”xxx是怎么设计的？”，核心思想就是<strong>设计（系统设计）</strong>，系统设计问题的回答方法-&gt;<strong>4S分析法</strong>。这让我想到了方法论，自我方法论。<br><a id="more"></a></p>
@@ -318,6 +318,50 @@
       </categories>
       <tags>
         <tag>思考</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>白猫灰猫黑猫算法</title>
+    <url>/blog/post/b31a5b39.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
+<li>偶尔发现一篇<a href="https://www.infoq.cn/article/how-to-judge-coding-ability" target="_blank" rel="noopener">文章</a>, 提到了白猫灰猫黑猫的问题</li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
+<li>问题1: 有一个数组，数组中存储的是 Cat 对象，每个 Cat 对象有多个成员变量，其中一个代表颜色 color，有两个值白色和黑色，要求编写一个函数将数组中所有的白猫都放到黑猫前面</li>
+<li>问题2: 如果猫的颜色有三种，白色、黑色、灰色，编写一个函数将数组中白猫放到最前面，灰猫放到中间，黑猫放到最后面，比如：原来数组为 黑白灰白白黑灰灰，经过排序之后白白白灰灰黑黑<a id="more"></a></li>
+<li>问题3: 不仅白灰黑之间按顺序排列，而且白猫，灰猫，黑猫各自内部原来的先后顺序也不能变</li>
+</ul>
+<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
+<li>思考本质其实某些算法的变种</li>
+<li>数组的原地排序，可以想到双指针算法 coding先写一个</li>
+<li><p>问题1 代码 双指针算法  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">29</span>]: <span class="class"><span class="keyword">class</span> <span class="title">Cat</span>:</span></span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, color)</span>:</span></span><br><span class="line">    ...:         self.color = color</span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    ...:         <span class="keyword">return</span> <span class="string">'id: &#123;0&#125;, color: &#123;1&#125;'</span>.format(id(self), self.color)</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">30</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">31</span>]: cats_list</span><br><span class="line">Out[<span class="number">31</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br><span class="line"></span><br><span class="line">In [<span class="number">32</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">33</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">34</span>]: cats_list</span><br><span class="line">Out[<span class="number">34</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题2 还是可以用双指针/多指针  </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">40</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">41</span>]: cats_list</span><br><span class="line">Out[<span class="number">41</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white]</span><br><span class="line"></span><br><span class="line">In [<span class="number">42</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="comment"># 排序白色猫</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:     <span class="comment">#排序灰色猫</span></span><br><span class="line">    ...:     k = i</span><br><span class="line">    ...:     <span class="keyword">for</span> index <span class="keyword">in</span> range(i, len(cats_list)):</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[index].color == <span class="string">'grey'</span>:</span><br><span class="line">    ...:             cats_list[k], cats_list[index] = cats_list[index], cats_list[k]</span><br><span class="line">    ...:             k += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">43</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">44</span>]: cats_list</span><br><span class="line">Out[<span class="number">44</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>问题3，思考了下，双指针的排序，但是在顺序上是有变化的</p>
+</li>
+<li>这里借助网络查询，google到 双指针/多指针问题 查询得到<a href="https://blog.csdn.net/qqxx6661/article/details/78841302" target="_blank" rel="noopener">文章地址</a></li>
+<li>发现是荷兰国旗问题 <a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener">LeetCode第75题</a></li>
+<li>参考LeetCode第75题，完善问题2，三指针，实现一次循环</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">45</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     p0 = curr = <span class="number">0</span></span><br><span class="line">    ...:     p2 = len(cats_list) - <span class="number">1</span></span><br><span class="line">    ...:     <span class="keyword">while</span> curr &lt;= p2:</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[curr].color == <span class="string">'white'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p0] = cats_list[p0], cats_list[curr]</span><br><span class="line">    ...:             p0 += <span class="number">1</span></span><br><span class="line">    ...:             curr += <span class="number">1</span></span><br><span class="line">    ...:         <span class="keyword">elif</span> cats_list[curr].color == <span class="string">'black'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p2] = cats_list[p2], cats_list[curr]</span><br><span class="line">    ...:             p2 -= <span class="number">1</span> <span class="comment"># 交换位置后需判断curr，所以curr不加1</span></span><br><span class="line">    ...:         <span class="keyword">else</span>:</span><br><span class="line">    ...:             curr += <span class="number">1</span>  </span><br><span class="line">    ...:</span><br></pre></td></tr></table></figure>
+<ul>
+<li>目前问题3 还没有找到解题方法</li>
+</ul>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><ul>
+<li>问题的本质是数组的原地排序，双指针/多指针问题</li>
+<li>有些时候，我们直接去寻找问题，可能并不会得到结果。这时候，我们不妨想想，这个问题的本质是用了哪类型的算法，是不是它的变种</li>
+<li>这样就会更好的去找到问题和解决问题</li>
+</ul>
+]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>双指针</tag>
+        <tag>多指针</tag>
       </tags>
   </entry>
   <entry>
@@ -365,50 +409,6 @@
       <tags>
         <tag>flask</tag>
         <tag>flask_login</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>白猫灰猫黑猫算法</title>
-    <url>/blog/post/b31a5b39.html</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><ul>
-<li>偶尔发现一篇<a href="https://www.infoq.cn/article/how-to-judge-coding-ability" target="_blank" rel="noopener">文章</a>, 提到了白猫灰猫黑猫的问题</li>
-</ul>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
-<li>问题1: 有一个数组，数组中存储的是 Cat 对象，每个 Cat 对象有多个成员变量，其中一个代表颜色 color，有两个值白色和黑色，要求编写一个函数将数组中所有的白猫都放到黑猫前面</li>
-<li>问题2: 如果猫的颜色有三种，白色、黑色、灰色，编写一个函数将数组中白猫放到最前面，灰猫放到中间，黑猫放到最后面，比如：原来数组为 黑白灰白白黑灰灰，经过排序之后白白白灰灰黑黑<a id="more"></a></li>
-<li>问题3: 不仅白灰黑之间按顺序排列，而且白猫，灰猫，黑猫各自内部原来的先后顺序也不能变</li>
-</ul>
-<h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
-<li>思考本质其实某些算法的变种</li>
-<li>数组的原地排序，可以想到双指针算法 coding先写一个</li>
-<li><p>问题1 代码 双指针算法  </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">29</span>]: <span class="class"><span class="keyword">class</span> <span class="title">Cat</span>:</span></span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, color)</span>:</span></span><br><span class="line">    ...:         self.color = color</span><br><span class="line">    ...:     <span class="function"><span class="keyword">def</span> <span class="title">__repr__</span><span class="params">(self)</span>:</span></span><br><span class="line">    ...:         <span class="keyword">return</span> <span class="string">'id: &#123;0&#125;, color: &#123;1&#125;'</span>.format(id(self), self.color)</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">30</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">31</span>]: cats_list</span><br><span class="line">Out[<span class="number">31</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br><span class="line"></span><br><span class="line">In [<span class="number">32</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">33</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">34</span>]: cats_list</span><br><span class="line">Out[<span class="number">34</span>]:</span><br><span class="line">[id: <span class="number">4555864208</span>, color: white,</span><br><span class="line"> id: <span class="number">4555863696</span>, color: white,</span><br><span class="line"> id: <span class="number">4555865488</span>, color: black,</span><br><span class="line"> id: <span class="number">4555863056</span>, color: black]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>问题2 还是可以用双指针/多指针  </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">40</span>]: cats_list = [Cat(<span class="string">'white'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'white'</span>), Cat(<span class="string">'grey'</span>), Cat(<span class="string">'black'</span>), Cat(<span class="string">'white'</span>)]</span><br><span class="line"></span><br><span class="line">In [<span class="number">41</span>]: cats_list</span><br><span class="line">Out[<span class="number">41</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white]</span><br><span class="line"></span><br><span class="line">In [<span class="number">42</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     i = <span class="number">0</span></span><br><span class="line">    ...:     <span class="comment"># 排序白色猫</span></span><br><span class="line">    ...:     <span class="keyword">for</span> j, cat <span class="keyword">in</span> enumerate(cats_list):</span><br><span class="line">    ...:         <span class="keyword">if</span> cat.color == <span class="string">'white'</span>:</span><br><span class="line">    ...:              cats_list[i], cats_list[j] = cats_list[j], cats_list[i]</span><br><span class="line">    ...:              i += <span class="number">1</span></span><br><span class="line">    ...:     <span class="comment">#排序灰色猫</span></span><br><span class="line">    ...:     k = i</span><br><span class="line">    ...:     <span class="keyword">for</span> index <span class="keyword">in</span> range(i, len(cats_list)):</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[index].color == <span class="string">'grey'</span>:</span><br><span class="line">    ...:             cats_list[k], cats_list[index] = cats_list[index], cats_list[k]</span><br><span class="line">    ...:             k += <span class="number">1</span></span><br><span class="line">    ...:</span><br><span class="line"></span><br><span class="line">In [<span class="number">43</span>]: cat_sort(cats_list)</span><br><span class="line"></span><br><span class="line">In [<span class="number">44</span>]: cats_list</span><br><span class="line">Out[<span class="number">44</span>]:</span><br><span class="line">[id: <span class="number">4560231120</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232016</span>, color: white,</span><br><span class="line"> id: <span class="number">4560231952</span>, color: white,</span><br><span class="line"> id: <span class="number">4560232144</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560230416</span>, color: grey,</span><br><span class="line"> id: <span class="number">4560231376</span>, color: black,</span><br><span class="line"> id: <span class="number">4560232208</span>, color: black]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>问题3，思考了下，双指针的排序，但是在顺序上是有变化的</p>
-</li>
-<li>这里借助网络查询，google到 双指针/多指针问题 查询得到<a href="https://blog.csdn.net/qqxx6661/article/details/78841302" target="_blank" rel="noopener">文章地址</a></li>
-<li>发现是荷兰国旗问题 <a href="https://leetcode.com/problems/sort-colors/" target="_blank" rel="noopener">LeetCode第75题</a></li>
-<li>参考LeetCode第75题，完善问题2，三指针，实现一次循环</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">In [<span class="number">45</span>]: <span class="function"><span class="keyword">def</span> <span class="title">cat_sort</span><span class="params">(cats_list)</span>:</span></span><br><span class="line">    ...:     p0 = curr = <span class="number">0</span></span><br><span class="line">    ...:     p2 = len(cats_list) - <span class="number">1</span></span><br><span class="line">    ...:     <span class="keyword">while</span> curr &lt;= p2:</span><br><span class="line">    ...:         <span class="keyword">if</span> cats_list[curr].color == <span class="string">'white'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p0] = cats_list[p0], cats_list[curr]</span><br><span class="line">    ...:             p0 += <span class="number">1</span></span><br><span class="line">    ...:             curr += <span class="number">1</span></span><br><span class="line">    ...:         <span class="keyword">elif</span> cats_list[curr].color == <span class="string">'black'</span>:</span><br><span class="line">    ...:             cats_list[curr], cats_list[p2] = cats_list[p2], cats_list[curr]</span><br><span class="line">    ...:             p2 -= <span class="number">1</span> <span class="comment"># 交换位置后需判断curr，所以curr不加1</span></span><br><span class="line">    ...:         <span class="keyword">else</span>:</span><br><span class="line">    ...:             curr += <span class="number">1</span>  </span><br><span class="line">    ...:</span><br></pre></td></tr></table></figure>
-<ul>
-<li>目前问题3 还没有找到解题方法</li>
-</ul>
-<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><ul>
-<li>问题的本质是数组的原地排序，双指针/多指针问题</li>
-<li>有些时候，我们直接去寻找问题，可能并不会得到结果。这时候，我们不妨想想，这个问题的本质是用了哪类型的算法，是不是它的变种</li>
-<li>这样就会更好的去找到问题和解决问题</li>
-</ul>
-]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>双指针</tag>
-        <tag>多指针</tag>
       </tags>
   </entry>
 </search>
