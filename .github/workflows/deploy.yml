@@ -35,5 +35,5 @@ jobs:
         with:
           personal_token: ${{ secrets.PERSONAL_TOKEN }}
           publish_dir: ./public
-          external_repository: runtangr/blog
+          external_repository: runtangr/runtangr.github.io
           publish_branch: gh-pages
